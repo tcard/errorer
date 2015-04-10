@@ -29,14 +29,14 @@ http.HandlerFunc("/", func(w http.ResponseWriter, req *http.Request) {
 
 ## Mandatory idiomaticity-awareness caveat
 
-I wouldn't recomment using this other than for small, personal programs. The idiomatic way of handling errors inside a function is to just return the (possibly wrapped) error, and let side-effects (like logging or setting error HTTP headers) be caused by the caller of the function. Like this:
+I wouldn't recomment using this other than for small, personal programs. The idiomatic way of handling errors inside a function is to just return the (possibly wrapped) error, and let side effects (like logging or setting error HTTP headers) be caused by the caller of the function. Like this:
 
 ```go
 http.HandlerFunc("/", func(w http.ResponseWriter, req *http.Request) {
 	err := rootHandler(req.URL.Values.Get("example_arg"))
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("ERROR", n, req.URL)
+		log.Println("ERROR", req.URL, err)
 	}
 })
 
